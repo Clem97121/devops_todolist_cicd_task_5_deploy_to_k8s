@@ -125,7 +125,7 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: development
-      image_name: ${{ env.DockerImageName }}
+      image_name: clem97121/todoapp
       image_tag: ${{ github.sha }}
     secrets: inherit
 
@@ -135,6 +135,6 @@ jobs:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging
-      image_name: ${{ env.DockerImageName }}
+      image_name: clem97121/todoapp
       image_tag: ${{ github.sha }}
     secrets: inherit
