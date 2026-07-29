@@ -10,7 +10,7 @@ on:
 
 env:
   PythonVersion: 3.8
-  DockerImageName: todoapp
+  DockerImageName: clem97121/todoapp
 
 jobs:
   python-ci:
@@ -118,3 +118,23 @@ jobs:
       with:
         name: helm-package
         path: ./*.tgz
+
+  deploy-dev:
+    name: Deploy to Development
+    needs: [docker-ci, helm-ci]
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: development
+      image_name: ${{ env.DockerImageName }}
+      image_tag: ${{ github.sha }}
+    secrets: inherit
+
+  deploy-stage:
+    name: Deploy to Staging
+    needs: deploy-dev
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: staging
+      image_name: ${{ env.DockerImageName }}
+      image_tag: ${{ github.sha }}
+    secrets: inherit
